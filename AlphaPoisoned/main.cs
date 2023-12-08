@@ -2,6 +2,7 @@
 using warhead = Exiled.Events.Handlers.Warhead;
 using server = Exiled.Events.Handlers.Server;
 using System;
+using System.Collections.Generic;
 
 namespace AlphaPoisoned
 {
@@ -22,10 +23,15 @@ namespace AlphaPoisoned
         }
         private void CheckSetting()
         {
-            Tuple<int, int> tpl = this.Config.CertainDamageTime;
-            if (tpl.Item2 < tpl.Item1)
+            List<int> tpl = this.Config.CertainDamageTime;
+            if (Config.DeathMessage == string.Empty | Config.DeathMessage == "" | Config.DeathMessage == null)
             {
-                Log.Warn("[Config] Tuple: value 1 cannot be greater than 2");
+                Log.Warn("[Config] Timer: Death message is empty");
+                Config.DeathMessage = "you were killed by radiation after the explosion";
+            }
+            if (tpl[0] > tpl[1])
+            {
+                Log.Warn("[Config] Timer: value 1 cannot be greater than 2");
                 this.OnDisabled();
                 base.OnDisabled();
             }

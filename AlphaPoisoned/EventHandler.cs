@@ -1,4 +1,5 @@
 ﻿using Exiled.API.Features;
+using Exiled.API.Enums;
 using Exiled.Events.EventArgs.Warhead;
 using Exiled.Events.EventArgs.Server;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace AlphaPoisoned
 
         public void OnDetonated(DetonatingEventArgs e)
         {
-            coroutineHandle = Timing.RunCoroutine(Damager());
+            coroutineHandle = Timing.RunCoroutine(Damager(), "idamager");
         }
         public void OnRoundStarted()
         {
@@ -35,9 +36,9 @@ namespace AlphaPoisoned
                     float damage = (float)new Random().Next(1, main.Instance.Config.MaxPoisonDamage);
                     foreach (Player player in Player.List.Where(x => x != null & x.IsAlive & !main.Instance.Config.IgnoredRoles.Contains(x.Role.Type)))
                     {
-                        player.Hurt(damage, Exiled.API.Enums.DamageType.Warhead);
+                        player.Hurt(player, damage, DamageType.Warhead, deathText: main.Instance.Config.DeathMessage);
                     }
-                    wait = new Random().Next(main.Instance.Config.CertainDamageTime.Item1, main.Instance.Config.CertainDamageTime.Item2);
+                    wait = new Random().Next(main.Instance.Config.CertainDamageTime[0], main.Instance.Config.CertainDamageTime[1]);
                 }
                 yield return Timing.WaitForSeconds(wait);
             }

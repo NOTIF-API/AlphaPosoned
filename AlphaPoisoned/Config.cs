@@ -23,6 +23,8 @@ namespace AlphaPoisoned
         [Description("maximum poison damage over time [default=5]")]
         public int MaxPoisonDamage { get; set; } = 5;
         [Description("period of time before the next warren")]
-        public Tuple<int, int> CertainDamageTime { get; set; } = new Tuple<int, int>(10, 30);
+        public List<int> CertainDamageTime { get; set; } = new List<int>() { 10, 30 };
+        [Description("a message that the player will see after death")]
+        public string DeathMessage { get; set; } = "you were killed by radiation after the explosion";
     }
 }
